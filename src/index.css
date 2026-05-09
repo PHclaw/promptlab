@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  @apply bg-slate-50 text-gray-900;
+}
+
+.dark body {
+  @apply bg-gray-900 text-gray-100;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
+
+/* ReactFlow custom styles */
+.react-flow__node {
+  @apply rounded-xl shadow-lg border-2 border-white bg-white;
+}
+
+.react-flow__node.selected {
+  @apply border-primary-500;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+/* Monaco editor customizations */
+.monaco-editor {
+  border-radius: 0.5rem;
+}
