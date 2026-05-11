@@ -39,6 +39,8 @@ export function PreviewPanel() {
     toggleModelEnabled,
     setActiveModel,
     testConnection,
+    collectVariables,
+    toggleVariableModal,
   } = usePromptLabStore();
 
   const [copied, setCopied] = useState(false);
@@ -88,13 +90,30 @@ export function PreviewPanel() {
     }
   };
 
-  // Execute with error handling
+  // Execute: check for variables first, otherwise execute directly
   const handleExecute = async () => {
     setExecError(null);
-    try {
-      await executePrompt();
-    } catch (e) {
-      setExecError(e instanceof Error ? e.message : String(e));
+    const vars = collectVariables();
+    const hasEmptyVars = vars.some((v) => !v.value.trim());
+    if (vars.length > 0 && hasEmptyVars) {
+      // Show variable modal
+      toggleVariableModal();
+    } else if (vars.length > 0) {
+      // All vars filled, execute with variables
+      const varMap: Record<string, string> = {};
+      vars.forEach((v) => { varMap[v.name] = v.value; });
+      try {
+        await executePrompt(varMap);
+      } catch (e) {
+        setExecError(e instanceof Error ? e.message : String(e));
+      }
+    } else {
+      // No variables, execute directly
+      try {
+        await executePrompt();
+      } catch (e) {
+        setExecError(e instanceof Error ? e.message : String(e));
+      }
     }
   };
 

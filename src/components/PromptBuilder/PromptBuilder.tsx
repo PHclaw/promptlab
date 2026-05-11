@@ -12,6 +12,7 @@ import {
   type Node,
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import { GripVertical, ArrowRight } from 'lucide-react';
 
 import { PromptBlockNode } from './PromptBlockNode';
 import { usePromptLabStore } from '../../stores';
@@ -129,7 +130,29 @@ export function PromptBuilder() {
   );
 
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full relative">
+      {/* Empty state guide */}
+      {blocks.length === 0 && (
+        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+          <div className="text-center">
+            <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-primary-100 to-purple-100 flex items-center justify-center">
+              <GripVertical className="w-10 h-10 text-primary-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-700">开始构建提示词</h3>
+            <p className="text-sm text-gray-500 mt-2 max-w-xs">
+              从左侧拖拽 Prompt Block 到画布，然后连线构建流程
+            </p>
+            <div className="flex items-center justify-center gap-2 mt-4 text-xs text-gray-400">
+              <span className="px-2 py-1 bg-purple-100 text-purple-600 rounded">System</span>
+              <ArrowRight className="w-3 h-3" />
+              <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded">User</span>
+              <ArrowRight className="w-3 h-3" />
+              <span className="px-2 py-1 bg-indigo-100 text-indigo-600 rounded">Output</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <ReactFlow
         nodes={nodesState}
         edges={edgesState}
@@ -154,19 +177,19 @@ export function PromptBuilder() {
 function getDefaultContent(type: BlockType): string {
   switch (type) {
     case 'system':
-      return 'You are a helpful assistant...';
+      return '你是一个有用的助手...';
     case 'user':
-      return 'Your question or input here...';
+      return '你的问题或输入...';
     case 'assistant':
-      return 'Assistant response template...';
+      return 'AI 回复示例...';
     case 'variable':
       return '{{variable_name}}';
     case 'template':
-      return 'Template content with {{variables}}...';
+      return '模板内容，支持 {{variables}}...';
     case 'condition':
-      return 'if {{condition}} then ...';
+      return '如果 {{condition}} 则 ...';
     case 'output':
-      return 'Expected output format...';
+      return '期望的输出格式...';
     default:
       return '';
   }

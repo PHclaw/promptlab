@@ -7,6 +7,17 @@ const categoryIcons: Record<string, React.ReactNode> = {
   Content: <FileText className="w-4 h-4" />,
   Business: <Briefcase className="w-4 h-4" />,
   Creative: <Sparkles className="w-4 h-4" />,
+  Analysis: <Sparkles className="w-4 h-4" />,
+  Product: <Briefcase className="w-4 h-4" />,
+};
+
+const categoryColors: Record<string, string> = {
+  Development: 'bg-blue-100 text-blue-600',
+  Content: 'bg-green-100 text-green-600',
+  Business: 'bg-orange-100 text-orange-600',
+  Creative: 'bg-purple-100 text-purple-600',
+  Analysis: 'bg-cyan-100 text-cyan-600',
+  Product: 'bg-amber-100 text-amber-600',
 };
 
 export function TemplatesPanel() {
@@ -50,10 +61,18 @@ export function TemplatesPanel() {
               >
                 {/* Icon & Category */}
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="p-1.5 rounded-lg bg-primary-100 text-primary-600">
+                  <div className={clsx(
+                    'p-1.5 rounded-lg',
+                    categoryColors[template.category] || 'bg-primary-100 text-primary-600'
+                  )}>
                     {categoryIcons[template.category] || <FileText className="w-4 h-4" />}
                   </div>
-                  <span className="text-xs text-gray-500">{template.category}</span>
+                  <span className={clsx(
+                    'text-xs px-2 py-0.5 rounded-full font-medium',
+                    categoryColors[template.category] || 'bg-gray-100 text-gray-600'
+                  )}>
+                    {template.category}
+                  </span>
                 </div>
 
                 {/* Name */}

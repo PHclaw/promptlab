@@ -77,6 +77,13 @@ export interface ComparisonResult {
   createdAt: string;
 }
 
+// Variable collected from blocks
+export interface CollectedVariable {
+  name: string;
+  value: string;
+  sourceBlockId: string;
+}
+
 // Store Types
 export interface PromptLabState {
   // Current Prompt
@@ -101,18 +108,30 @@ export interface PromptLabState {
   darkMode: boolean;
   showModelPanel: boolean; // model config panel visibility
 
+  // Variable state
+  collectedVariables: CollectedVariable[];
+  showVariableModal: boolean;
+  pendingExecution: boolean;
+
   // Actions
   addBlock: (block: PromptBlock) => void;
   updateBlock: (id: string, updates: Partial<PromptBlock>) => void;
   removeBlock: (id: string) => void;
   selectBlock: (id: string | null) => void;
   connectBlocks: (sourceId: string, targetId: string) => void;
+  clearCanvas: () => void;
 
   loadTemplate: (template: PromptTemplate) => void;
   saveAsTemplate: (name: string, description: string) => void;
 
-  executePrompt: () => Promise<void>;
+  collectVariables: () => CollectedVariable[];
+  setVariableValue: (name: string, value: string) => void;
+  toggleVariableModal: () => void;
+  executePrompt: (variables?: Record<string, string>) => Promise<void>;
   compareModels: () => Promise<void>;
+
+  exportAsJSON: () => string;
+  exportAsMarkdown: () => string;
 
   // Model actions
   addModel: (model: ModelConfig) => void;

@@ -3,6 +3,7 @@ import { Sidebar } from './components/Sidebar';
 import { PreviewPanel } from './components/PreviewPanel';
 import { Header } from './components/Header';
 import { TemplatesPanel } from './components/TemplatesPanel';
+import { VariableModal } from './components/VariableModal/VariableModal';
 import { usePromptLabStore } from './stores';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         )}
       </div>
       <TemplatesPanel />
+      <VariableModal />
     </div>
   );
 }
